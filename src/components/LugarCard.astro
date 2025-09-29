@@ -84,7 +84,6 @@ const color = tipoColores[lugar.tipo] || 'gray';
   <!-- Contenido -->
   <div class="p-6">
     <h3 class="font-bold text-xl mb-2">{lugar.nombre}</h3>
-    <p class="text-gray-600 text-sm mb-3">{lugar.descripcion}</p>
     
     <!-- Ubicación -->
     <div class="flex items-start gap-2 text-sm text-gray-500 mb-4">
@@ -136,22 +135,7 @@ const color = tipoColores[lugar.tipo] || 'gray';
     {(lugar.telefono || lugar.email || lugar.sitioWeb) && (
       <div class="border-t pt-4 mt-4">
         <div class="text-sm space-y-1">
-          {lugar.telefono && (
-            <div class="flex items-center gap-2 text-gray-600">
-              <span>📞</span>
-              <a href={`tel:${lugar.telefono}`} class="hover:text-blue-600">
-                {lugar.telefono}
-              </a>
-            </div>
-          )}
-          {lugar.email && (
-            <div class="flex items-center gap-2 text-gray-600">
-              <span>✉️</span>
-              <a href={`mailto:${lugar.email}`} class="hover:text-blue-600">
-                {lugar.email}
-              </a>
-            </div>
-          )}
+          
           {lugar.sitioWeb && (
             <div class="flex items-center gap-2 text-gray-600">
               <span>🌐</span>
