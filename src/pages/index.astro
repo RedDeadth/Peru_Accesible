@@ -1,12 +1,10 @@
 ---
 // src/pages/index.astro
-import { db, Lugares } from 'astro:db';
+import lugaresData from '../data/lugares.json';
+const todosLugares = lugaresData;
 import Layout from '../layouts/layout.astro';
 import LugarCard from '../components/LugarCard.astro';
 import CategorySection from '../components/CategorySection.astro';
-
-// Obtener todos los lugares de la base de datos
-const todosLugares = await db.select().from(Lugares);
 
 // Agrupar lugares por categoría
 const restaurantes = todosLugares.filter(l => l.tipo === 'restaurante');
