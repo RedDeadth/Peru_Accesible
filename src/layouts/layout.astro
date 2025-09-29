@@ -1,0 +1,127 @@
+---
+// src/layouts/layout.astro
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Directorio de lugares accesibles para personas con discapacidad en Perú. Incluye certificaciones Yapaykuy." />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="stylesheet" href="src/styles/global.css" />
+    
+    <!-- Fuente amigable para estilo craft -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Fredoka:wght@400;600;700&display=swap');
+      
+      body {
+        font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Bubblegum Sans', 'Comic Sans MS', cursive, sans-serif;
+      }
+      
+      /* Textura de papel */
+      .paper-texture {
+        background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence baseFrequency="0.9" numOctaves="4" /%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.4"/%3E%3C/svg%3E');
+      }
+    </style>
+  </head>
+  <body class="min-h-screen" style="background-color: #f5e6d3; font-family: 'Comic Sans MS', cursive, sans-serif;">
+    <!-- Header -->
+    <header class="shadow-lg sticky top-0 z-50" style="background: linear-gradient(135deg, #d4a574 0%, #c9956e 100%);">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">♿</span>
+            <div>
+              <h1 class="font-bold text-2xl text-amber-900" style="text-shadow: 1px 1px 2px rgba(255,255,255,0.5);">
+                Perú Accesible
+              </h1>
+              <p class="text-sm text-amber-800">Directorio mágico de lugares inclusivos</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <a href="/" class="text-amber-900 hover:text-amber-700 font-bold px-4 py-2 rounded-full hover:bg-amber-100 transition">
+              Inicio
+            </a>
+            <a href="#categorias" class="text-amber-900 hover:text-amber-700 font-bold px-4 py-2 rounded-full hover:bg-amber-100 transition">
+              Categorías
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 relative overflow-hidden" style="background: linear-gradient(135deg, #8b7355 0%, #6d5d4b 100%);">
+      <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h60v60H0z\' fill=\'none\'/%3E%3Cpath d=\'M30 0v60M0 30h60\' stroke=\'%23000\' stroke-width=\'0.5\' opacity=\'0.1\'/%3E%3C/svg%3E');"></div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="font-bold text-xl mb-4 flex items-center gap-2 text-amber-100">
+              <span class="text-3xl">♿</span> Perú Accesible
+            </h3>
+            <p class="text-amber-200 leading-relaxed">
+              Directorio colaborativo de lugares accesibles para personas con discapacidad en todo el Perú. 
+              ¡Juntos creamos un Perú más inclusivo!
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-xl mb-4 text-amber-100">Enlaces Útiles</h3>
+            <ul class="space-y-2 text-amber-200">
+              <li>
+                <a href="https://www.gob.pe/conadis" target="_blank" class="hover:text-white transition">
+                  🏛️ CONADIS Perú
+                </a>
+              </li>
+              <li>
+                <a href="https://www.gob.pe/" target="_blank" class="hover:text-white transition">
+                  🇵🇪 Portal del Estado Peruano
+                </a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">
+                  📜 Ley de Accesibilidad
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-bold text-xl mb-4 text-amber-100">Contacto</h3>
+            <p class="text-amber-200 mb-4">
+              ¿Conoces un lugar accesible que no está en nuestro directorio?
+            </p>
+            <a 
+              href="mailto:[email protected]" 
+              class="inline-block bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700 transition shadow-lg"
+            >
+              ✉️ Agregar Lugar
+            </a>
+          </div>
+        </div>
+        <div class="border-t border-amber-700 mt-8 pt-8 text-center text-amber-300">
+          <p class="text-lg">© {new Date().getFullYear()} Perú Accesible. Hecho con ❤️ para todos</p>
+          <p class="text-sm mt-2">
+            Este sitio promueve la inclusión y accesibilidad en el Perú 🇵🇪✨
+          </p>
+        </div>
+      </div>
+    </footer>-lg mb-4">Contacto</h3>
+  </body>
+</html>

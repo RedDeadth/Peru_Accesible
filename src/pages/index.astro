@@ -1,16 +1,203 @@
 ---
+// src/pages/index.astro
+import { db, Lugares } from 'astro:db';
+import Layout from '../layouts/layout.astro';
+import LugarCard from '../components/LugarCard.astro';
+import CategorySection from '../components/CategorySection.astro';
 
+// Obtener todos los lugares de la base de datos
+const todosLugares = await db.select().from(Lugares);
+
+// Agrupar lugares por categoría
+const restaurantes = todosLugares.filter(l => l.tipo === 'restaurante');
+const cafeterias = todosLugares.filter(l => l.tipo === 'cafeteria');
+const hoteles = todosLugares.filter(l => l.tipo === 'hotel');
+const comercio = todosLugares.filter(l => l.tipo === 'comercio');
+const cultura = todosLugares.filter(l => l.tipo === 'cultura');
+
+// Contar lugares certificados
+const certificados = todosLugares.filter(l => l.certificadoYapaykuy).length;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Directorio de Lugares Accesibles - Perú">
+  <!-- Hero Section con estilo craft -->
+  <section class="relative py-20 overflow-hidden" style="background: linear-gradient(135deg, #d4a574 0%, #c9956e 100%);">
+    <!-- Textura de papel -->
+    <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence baseFrequency=\'0.9\' numOctaves=\'4\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.4\'/%3E%3C/svg%3E');"></div>
+    
+    <div class="container mx-auto px-4 text-center relative z-10">
+      <div class="inline-block bg-amber-50 rounded-full px-6 py-2 mb-6 shadow-lg border-2 border-amber-200" style="transform: rotate(-2deg);">
+        <span class="text-amber-800 font-semibold">✨ Descubre lugares amigables ✨</span>
+      </div>
+      
+      <h1 class="text-5xl md:text-6xl font-bold mb-4 text-amber-900" style="font-family: 'Comic Sans MS', cursive, sans-serif; text-shadow: 3px 3px 0px rgba(255,255,255,0.3);">
+        Perú Accesible para Todos 🇵🇪
+      </h1>
+      
+      <p class="text-xl mb-8 max-w-2xl mx-auto text-amber-800 leading-relaxed" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+        Un directorio mágico donde encontrarás lugares increíbles que todos pueden disfrutar. 
+        ¡Explora y descubre espacios certificados por Yapaykuy!
+      </p>
+      
+      <a 
+        href="#categorias" 
+        class="inline-block bg-green-600 text-white px-8 py-4 rounded-full font-bold hover:bg-green-700 transition shadow-lg transform hover:scale-105"
+        style="font-family: 'Comic Sans MS', cursive, sans-serif;"
+      >
+        🔍 Explorar Lugares
+      </a>
+    </div>
+  </section>
+
+  <!-- Sección: ¿Qué buscamos? -->
+  <section class="py-16 bg-gradient-to-b from-amber-50 to-green-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-4 text-amber-900" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+        ¿Qué hace a un lugar accesible? 🌟
+      </h2>
+      <p class="text-center text-amber-700 mb-12 text-lg" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+        Estos son los elementos mágicos que buscamos en cada lugar
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-3xl shadow-lg border-3 border-blue-300 hover:shadow-2xl transition transform hover:-translate-y-1">
+          <div class="text-5xl mb-3 text-center">♿</div>
+          <h3 class="font-bold text-xl mb-2 text-center text-blue-800" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Rampas de Acceso
+          </h3>
+          <p class="text-gray-600 text-center" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Entradas sin barreras para todos
+          </p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-3xl shadow-lg border-3 border-purple-300 hover:shadow-2xl transition transform hover:-translate-y-1">
+          <div class="text-5xl mb-3 text-center">🚻</div>
+          <h3 class="font-bold text-xl mb-2 text-center text-purple-800" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Baños Adaptados
+          </h3>
+          <p class="text-gray-600 text-center" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Instalaciones cómodas y seguras
+          </p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-3xl shadow-lg border-3 border-green-300 hover:shadow-2xl transition transform hover:-translate-y-1">
+          <div class="text-5xl mb-3 text-center">🅿️</div>
+          <h3 class="font-bold text-xl mb-2 text-center text-green-800" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Estacionamiento
+          </h3>
+          <p class="text-gray-600 text-center" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Espacios amplios y reservados
+          </p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-3xl shadow-lg border-3 border-yellow-300 hover:shadow-2xl transition transform hover:-translate-y-1">
+          <div class="text-5xl mb-3 text-center">👁️</div>
+          <h3 class="font-bold text-xl mb-2 text-center text-yellow-800" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Señalética Braille
+          </h3>
+          <p class="text-gray-600 text-center" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Información táctil disponible
+          </p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-3xl shadow-lg border-3 border-red-300 hover:shadow-2xl transition transform hover:-translate-y-1">
+          <div class="text-5xl mb-3 text-center">🎧</div>
+          <h3 class="font-bold text-xl mb-2 text-center text-red-800" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Audioguías
+          </h3>
+          <p class="text-gray-600 text-center" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Contenido auditivo descriptivo
+          </p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-3xl shadow-lg border-3 border-indigo-300 hover:shadow-2xl transition transform hover:-translate-y-1">
+          <div class="text-5xl mb-3 text-center">👨‍🏫</div>
+          <h3 class="font-bold text-xl mb-2 text-center text-indigo-800" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Personal Capacitado
+          </h3>
+          <p class="text-gray-600 text-center" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            Atención especializada y amable
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categorías Desplegables -->
+  <section id="categorias" class="py-16 relative" style="background-color: #f5e6d3;">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-4 text-amber-900" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+        🗂️ Explora por Categorías
+      </h2>
+      <p class="text-center text-amber-700 mb-12 text-lg" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+        Haz clic en cada categoría para descubrir lugares increíbles
+      </p>
+      
+      <div class="space-y-6 max-w-5xl mx-auto">
+        <CategorySection 
+          title="Restaurantes" 
+          icon="🍽️" 
+          color="orange"
+          lugares={restaurantes}
+          id="restaurantes"
+        />
+        
+        <CategorySection 
+          title="Cafeterías" 
+          icon="☕" 
+          color="brown"
+          lugares={cafeterias}
+          id="cafeterias"
+        />
+        
+        <CategorySection 
+          title="Hoteles" 
+          icon="🏨" 
+          color="blue"
+          lugares={hoteles}
+          id="hoteles"
+        />
+        
+        <CategorySection 
+          title="Comercio" 
+          icon="🛍️" 
+          color="purple"
+          lugares={comercio}
+          id="comercio"
+        />
+        
+        <CategorySection 
+          title="Cultura" 
+          icon="🎨" 
+          color="pink"
+          lugares={cultura}
+          id="cultura"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Acerca de Yapaykuy con estilo craft -->
+  <section class="py-16 relative overflow-hidden" style="background: linear-gradient(135deg, #8fbc8f 0%, #6b9b6b 100%);">
+    <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence baseFrequency=\'0.9\' numOctaves=\'4\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.4\'/%3E%3C/svg%3E');"></div>
+    
+    <div class="container mx-auto px-4 text-center relative z-10">
+      <h2 class="text-4xl font-bold mb-4 text-white" style="font-family: 'Comic Sans MS', cursive, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+        ¿Qué es la Certificación Yapaykuy? 🏆
+      </h2>
+      <p class="text-xl max-w-3xl mx-auto mb-8 text-green-50 leading-relaxed" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+        Yapaykuy es un programa especial peruano que verifica y reconoce 
+        a establecimientos que cumplen con estándares de accesibilidad universal, 
+        garantizando que todas las personas puedan disfrutar plenamente de sus servicios.
+      </p>
+      <a 
+        href="https://yapaykuy.com" 
+        target="_blank"
+        class="inline-block bg-white text-green-700 px-8 py-4 rounded-full font-bold hover:bg-green-50 transition shadow-lg transform hover:scale-105"
+        style="font-family: 'Comic Sans MS', cursive, sans-serif;"
+      >
+        📚 Más información sobre Yapaykuy
+      </a>
+    </div>
+  </section>
+</Layout>

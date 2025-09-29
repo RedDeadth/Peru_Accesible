@@ -1,0 +1,107 @@
+---
+// src/components/CategorySection.astro
+import LugarCard from './LugarCard.astro';
+
+interface Props {
+  title: string;
+  icon: string;
+  color: string;
+  lugares: any[];
+  id: string;
+}
+
+const { title, icon, color, lugares, id } = Astro.props;
+
+// Colores de fondo por categoría
+const bgColors: Record<string, string> = {
+  orange: 'bg-orange-100 border-orange-300 hover:bg-orange-200',
+  brown: 'bg-amber-100 border-amber-400 hover:bg-amber-200',
+  blue: 'bg-blue-100 border-blue-300 hover:bg-blue-200',
+  purple: 'bg-purple-100 border-purple-300 hover:bg-purple-200',
+  pink: 'bg-pink-100 border-pink-300 hover:bg-pink-200',
+};
+
+const textColors: Record<string, string> = {
+  orange: 'text-orange-800',
+  brown: 'text-amber-900',
+  blue: 'text-blue-800',
+  purple: 'text-purple-800',
+  pink: 'text-pink-800',
+};
+
+const bgClass = bgColors[color] || 'bg-gray-100 border-gray-300';
+const textClass = textColors[color] || 'text-gray-800';
+---
+
+<div class={`rounded-3xl border-4 shadow-xl overflow-hidden transition-all ${bgClass}`}>
+  <!-- Header de la categoría (clickeable) -->
+  <button 
+    class={`w-full px-6 py-5 flex items-center justify-between cursor-pointer transition-all hover:shadow-md`}
+    onclick={`toggleCategory('${id}')`}
+    type="button"
+  >
+    <div class="flex items-center gap-4">
+      <span class="text-4xl">{icon}</span>
+      <div class="text-left">
+        <h3 class={`text-2xl font-bold ${textClass}`} style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+          {title}
+        </h3>
+        <p class={`text-sm ${textClass} opacity-75`} style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+          {lugares.length} {lugares.length === 1 ? 'lugar disponible' : 'lugares disponibles'}
+        </p>
+      </div>
+    </div>
+    
+    <!-- Icono dropdown -->
+    <div class={`transform transition-transform duration-300 text-3xl ${textClass}`} id={`arrow-${id}`}>
+      ▼
+    </div>
+  </button>
+  
+  <!-- Contenido desplegable -->
+  <div 
+    id={`content-${id}`} 
+    class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+    style="max-height: 0;"
+  >
+    <div class="p-6 bg-white bg-opacity-50">
+      {lugares.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {lugares.map((lugar) => (
+            <LugarCard lugar={lugar} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class={`text-xl ${textClass}`} style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+            😊 Pronto agregaremos lugares en esta categoría
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ id }}>
+  function toggleCategory(categoryId) {
+    const content = document.getElementById(`content-${categoryId}`);
+    const arrow = document.getElementById(`arrow-${categoryId}`);
+    
+    if (content && arrow) {
+      const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+      
+      if (isOpen) {
+        // Cerrar
+        content.style.maxHeight = '0';
+        arrow.style.transform = 'rotate(0deg)';
+      } else {
+        // Abrir
+        content.style.maxHeight = content.scrollHeight + 'px';
+        arrow.style.transform = 'rotate(180deg)';
+      }
+    }
+  }
+  
+  // Hacer la función global
+  window.toggleCategory = toggleCategory;
+</script>
